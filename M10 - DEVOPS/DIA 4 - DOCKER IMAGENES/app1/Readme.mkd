@@ -1,0 +1,50 @@
+# Ejercicio de clase
+1. Configuración de Archivos
+1. Configuración de Archivos
+Primero, crea una carpeta para tu proyecto
+Dentro de esta carpeta, crea el siguiente archivo:
+ app.js
+Este archivo tendrá el código básico de una aplicación Express que responde con un mensaje simple:
+javascript
+
+
+// app.js
+```
+const express = require('express');
+const app = express();
+const PORT = 3000;
+
+app.get('/', (req, res) => {
+    res.send('Hello from Docker!');
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
+```
+**Archivo Dockerfile**
+Este Dockerfile define la imagen de Docker para la aplicación. Usaremos la versión alpine de Node.js para que sea ligera.
+dockerfile
+
+```
+# Usa una imagen base de Node.js ligera
+FROM node:alpine
+
+# Crea y define el directorio de trabajo
+WORKDIR /app
+
+# Copia package.json e instala dependencias
+COPY package.json /app/package.json
+RUN npm install
+
+# Copia el código de la aplicación
+COPY app.js /app/app.js
+
+# Expone el puerto de la aplicación
+EXPOSE 3000
+
+# Comando para iniciar la aplicación
+CMD ["npm", "start"]
+
+
+```
